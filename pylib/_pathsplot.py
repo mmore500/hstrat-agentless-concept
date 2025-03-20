@@ -1,20 +1,15 @@
 import typing
 
-import numpy as np
 import pandas as pd
 import seaborn as sns
+
+from ._dewrap_path import dewrap_path
 
 
 def pathsplot(
     paths: typing.List[typing.List[typing.Tuple[int, int]]],
-    xlim: typing.Tuple[typing.Optional[int], typing.Optional[int]] = (
-        None,
-        None,
-    ),
-    ylim: typing.Tuple[typing.Optional[int], typing.Optional[int]] = (
-        None,
-        None,
-    ),
+    xmax: typing.Optional[int] = None,
+    ymax: typing.Optional[int] = None,
     **kwargs: dict,
 ) -> sns.FacetGrid:
     """Plot multiple paths.
@@ -33,20 +28,21 @@ def pathsplot(
         Seaborn FaceGrid object.
     """
     path_dfs = []
-    for path in paths:
-        x, y = zip(*path)
-        x, y = [*x], [*y]
-        t = np.arange(len(x) - 1)
-        df = pd.concat(
-            [
-                pd.DataFrame({"x": x[:-1], "y": y[:-1], "t": t}),
-                pd.DataFrame({"x": x[1:], "y": y[1:], "t": t}),
-            ],
-        )
-        df["path"] = len(path_dfs)
-        path_dfs.append(df)
+    for p, path in enumerate(paths):
+        for path in dewrap_path(path, xmax, ymax):
+            t, x, y = zip(*path)
+            t, x, y = [*t], [*x], [*y]
+            df = pd.concat(
+                [
+                    pd.DataFrame({"x": x[:-1], "y": y[:-1], "t": t[:-1]}),
+                    pd.DataFrame({"x": x[1:], "y": y[1:], "t": t[:-1]}),
+                ],
+            )
+            df["path"] = p
+            path_dfs.append(df)
 
     df = pd.concat(path_dfs)
+
     g = sns.relplot(
         data=df,
         x="x",
@@ -58,5 +54,5 @@ def pathsplot(
         sort=False,
         **kwargs,
     )
-    g.set(xlim=xlim, ylim=ylim)
+    g.set(xlim=(0, xmax), ylim=(0, ymax))
     return g
