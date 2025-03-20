@@ -7,6 +7,14 @@ import seaborn as sns
 
 def pathsplot(
     paths: typing.List[typing.List[typing.Tuple[int, int]]],
+    xlim: typing.Tuple[typing.Optional[int], typing.Optional[int]] = (
+        None,
+        None,
+    ),
+    ylim: typing.Tuple[typing.Optional[int], typing.Optional[int]] = (
+        None,
+        None,
+    ),
     **kwargs: dict,
 ) -> sns.FacetGrid:
     """Plot multiple paths.
@@ -39,7 +47,7 @@ def pathsplot(
         path_dfs.append(df)
 
     df = pd.concat(path_dfs)
-    return sns.relplot(
+    g = sns.relplot(
         data=df,
         x="x",
         y="y",
@@ -50,3 +58,5 @@ def pathsplot(
         sort=False,
         **kwargs,
     )
+    g.set(xlim=xlim, ylim=ylim)
+    return g
