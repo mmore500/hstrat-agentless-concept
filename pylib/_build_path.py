@@ -1,12 +1,10 @@
 import itertools as it
 import typing
 
-import numpy as np
-
 
 def build_path(
     coordinate: typing.Tuple[int, int],
-    frames: typing.List[np.array],
+    frames: typing.List[typing.Any],
     attributor: typing.Callable,
 ) -> typing.List[typing.Tuple[int, int]]:
     """Trace a path backwards from end coordinate.
@@ -16,7 +14,7 @@ def build_path(
     coordinate : Tuple[int, int]
         Starting coordinate.
 
-    frames : List[np.array]
+    frames : List[typing.Any]
         List of frames to traverse, in chronological order.
 
     attributor : Callable
