@@ -128,6 +128,9 @@ jobs:
   tex:
     name: Latex Build and Deploy
     runs-on: ubuntu-22.04
+    env:
+      # RE https://stackoverflow.com/a/40184923/17332200
+      PIP_NO_CACHE_DIR: 1
     container:
       image: ghcr.io/mmore500/teximage:sha-77b8179
       options: --user root
@@ -156,13 +159,14 @@ jobs:
         with:
           name: manuscript
           path: tex/*-draft.pdf
-      - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v2
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
           path: deploy
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
+
 
   slurm:
     runs-on: ubuntu-22.04
