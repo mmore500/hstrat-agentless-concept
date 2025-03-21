@@ -1,35 +1,55 @@
-import cv2
+from IPython.display import Image as IPImage
+from IPython.display import display
+import imageio
+import matplotlib.cm as cm
 import numpy as np
 
 
 class VideoWriter:
     def __init__(self, filename, fps=30.0, fourcc="mp4v"):
+        """
+        Drop-in replacement for the original VideoWriter, writing a GIF instead.
+
+        Parameters:
+            filename (str): Output filename for the GIF.
+            fps (float): Frames per second for the GIF.
+            fourcc (str): Unused parameter kept for compatibility.
+        """
         self.filename = filename
         self.fps = fps
-        self.writer = None
-        # Define the codec using OpenCV's VideoWriter_fourcc function.
-        self.fourcc = cv2.VideoWriter_fourcc(*fourcc)
+        self.frames = []
+        # Use the "jet" colormap by default for grayscale images.
+        self.colormap = cm.get_cmap("jet")
 
     def add(self, img):
+        """
+        Add a frame to the GIF.
+
+        Converts the image to a NumPy array. If the image is of float type, it
+        scales it to the 0-255 range and converts to uint8. If the image is
+        grayscale (either a 2D array or a single channel image), the image is
+        normalized and the colormap is applied.
+        """
         img = np.asarray(img)
-        # Convert image from float to uint8 if needed.
+        # Convert from float to uint8 if needed.
         if img.dtype in [np.float32, np.float64]:
             img = np.uint8(np.clip(img, 0, 1) * 255)
-        # If the image is grayscale, convert it to a 3-channel BGR image.
+        # Check if the image is grayscale or has a single channel.
         if len(img.shape) == 2 or (len(img.shape) == 3 and img.shape[2] == 1):
-            img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
-        # Initialize the writer when the first frame is added.
-        if self.writer is None:
-            h, w = img.shape[:2]
-            self.writer = cv2.VideoWriter(
-                self.filename, self.fourcc, self.fps, (w, h)
-            )
-        self.writer.write(img)
+            # Convert image to float32 for normalization.
+            img = img.astype(np.float32)
+            norm_img = (img - img.min()) / (img.max() - img.min() + 1e-8)
+            # Apply colormap (ignore alpha) to obtain an RGB image.
+            img = (self.colormap(norm_img)[:, :, :3] * 255).astype(np.uint8)
+        self.frames.append(img)
 
     def close(self):
-        if self.writer:
-            self.writer.release()
-            self.writer = None
+        """
+        Save all accumulated frames as a GIF file and clear the frame list.
+        """
+        if self.frames:
+            imageio.mimsave(self.filename, self.frames, fps=self.fps)
+            self.frames = []
 
     def __enter__(self):
         return self
@@ -38,6 +58,12 @@ class VideoWriter:
         self.close()
 
     def show(self, width=640, height=480):
+        """
+        Close the writer (if not already closed) and display the saved GIF
+        inline.
+
+        The width and height parameters are maintained for compatibility with
+        the original API.
+        """
         self.close()
-        # Display the saved video in the notebook.
-        print("bypassing output")
+        display(IPImage(filename=self.filename))
