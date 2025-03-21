@@ -48,7 +48,7 @@ class VideoWriter:
         Save all accumulated frames as a GIF file and clear the frame list.
         """
         if self.frames:
-            imageio.mimsave(self.filename, self.frames, fps=self.fps)
+            imageio.mimsave(self.filename, self.frames, fps=self.fps, loop=0)
             self.frames = []
 
     def __enter__(self):
