@@ -318,7 +318,7 @@ seaborn==0.13.2
     #   -r requirements.in
     #   backstrip
     #   pecking
-setuptools==77.0.1
+setuptools==77.0.3
     # via
     #   hurry-filesize
     #   ipython
