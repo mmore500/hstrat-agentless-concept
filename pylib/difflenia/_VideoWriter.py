@@ -75,7 +75,7 @@ class VideoWriter:
                 gifsicle(
                     sources=self.filename,
                     optimize=True,
-                    colors=8,  # Number of colors to use
+                    colors=256,  # Number of colors to use
                     options=[
                         "--lossy=8",
                         "--resize-height=240",
