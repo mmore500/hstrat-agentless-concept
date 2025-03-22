@@ -3,6 +3,7 @@ from IPython.display import display
 import imageio
 import matplotlib.cm as cm
 import numpy as np
+from pygifsicle import gifsicle
 
 
 class VideoWriter:
@@ -70,6 +71,18 @@ class VideoWriter:
         if self.frames:
             imageio.mimsave(self.filename, self.frames, fps=self.fps, loop=0)
             self.frames = []
+            try:
+                gifsicle(
+                    sources=self.filename,
+                    optimize=True,
+                    colors=8,  # Number of colors to use
+                    options=[
+                        "--lossy=8",
+                        "--resize-height=240",
+                    ],
+                )
+            except Exception as e:
+                print(f"Failed to optimize GIF: {e}")
 
     def __enter__(self):
         return self
