@@ -3,10 +3,11 @@ from IPython.display import display
 import imageio
 import matplotlib.cm as cm
 import numpy as np
+from pygifsicle import gifsicle
 
 
 class VideoWriter:
-    def __init__(self, filename, fps=30.0, fourcc="mp4v"):
+    def __init__(self, filename, fps=30.0):
         """
         Drop-in replacement for the original VideoWriter, writing a GIF instead.
 
@@ -43,13 +44,45 @@ class VideoWriter:
             img = (self.colormap(norm_img)[:, :, :3] * 255).astype(np.uint8)
         self.frames.append(img)
 
+    def add_observations(self, observations):
+        for timestep in range(observations["states"].shape[0]):
+            rgb_im = np.concatenate(
+                [
+                    observations["states"][timestep, :, :, 0]
+                    .detach()
+                    .cpu()
+                    .unsqueeze(-1)
+                    .numpy()
+                    .repeat(2, 2),
+                    observations["states"][timestep, :, :, 1]
+                    .detach()
+                    .cpu()
+                    .unsqueeze(-1)
+                    .numpy(),
+                ],
+                axis=2,
+            )
+            self.add(rgb_im)
+
     def close(self):
         """
         Save all accumulated frames as a GIF file and clear the frame list.
         """
         if self.frames:
-            imageio.mimsave(self.filename, self.frames, fps=self.fps)
+            imageio.mimsave(self.filename, self.frames, fps=self.fps, loop=0)
             self.frames = []
+            try:
+                gifsicle(
+                    sources=self.filename,
+                    optimize=True,
+                    colors=8,  # Number of colors to use
+                    options=[
+                        "--lossy=8",
+                        "--resize-height=240",
+                    ],
+                )
+            except Exception as e:
+                print(f"Failed to optimize GIF: {e}")
 
     def __enter__(self):
         return self
@@ -57,7 +90,7 @@ class VideoWriter:
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()
 
-    def show(self, width=640, height=480):
+    def show(self):
         """
         Close the writer (if not already closed) and display the saved GIF
         inline.
