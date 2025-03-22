@@ -43,6 +43,26 @@ class VideoWriter:
             img = (self.colormap(norm_img)[:, :, :3] * 255).astype(np.uint8)
         self.frames.append(img)
 
+    def add_observations(self, observations):
+        for timestep in range(observations["states"].shape[0]):
+            rgb_im = np.concatenate(
+                [
+                    observations["states"][timestep, :, :, 0]
+                    .detach()
+                    .cpu()
+                    .unsqueeze(-1)
+                    .numpy()
+                    .repeat(2, 2),
+                    observations["states"][timestep, :, :, 1]
+                    .detach()
+                    .cpu()
+                    .unsqueeze(-1)
+                    .numpy(),
+                ],
+                axis=2,
+            )
+            self.add(rgb_im)
+
     def close(self):
         """
         Save all accumulated frames as a GIF file and clear the frame list.
