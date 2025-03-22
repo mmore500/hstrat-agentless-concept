@@ -7,7 +7,7 @@ from pygifsicle import gifsicle
 
 
 class VideoWriter:
-    def __init__(self, filename, fps=30.0, fourcc="mp4v"):
+    def __init__(self, filename, fps=30.0):
         """
         Drop-in replacement for the original VideoWriter, writing a GIF instead.
 
@@ -87,10 +87,10 @@ class VideoWriter:
     def __enter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(self):
         self.close()
 
-    def show(self, width=640, height=480):
+    def show(self):
         """
         Close the writer (if not already closed) and display the saved GIF
         inline.
