@@ -3,10 +3,11 @@ from IPython.display import display
 import imageio
 import matplotlib.cm as cm
 import numpy as np
+from pygifsicle import gifsicle
 
 
 class VideoWriter:
-    def __init__(self, filename, fps=30.0, fourcc="mp4v"):
+    def __init__(self, filename, fps=30.0):
         """
         Drop-in replacement for the original VideoWriter, writing a GIF instead.
 
@@ -70,14 +71,26 @@ class VideoWriter:
         if self.frames:
             imageio.mimsave(self.filename, self.frames, fps=self.fps, loop=0)
             self.frames = []
+            try:
+                gifsicle(
+                    sources=self.filename,
+                    optimize=True,
+                    colors=8,  # Number of colors to use
+                    options=[
+                        "--lossy=8",
+                        "--resize-height=240",
+                    ],
+                )
+            except Exception as e:
+                print(f"Failed to optimize GIF: {e}")
 
     def __enter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(self):
         self.close()
 
-    def show(self, width=640, height=480):
+    def show(self):
         """
         Close the writer (if not already closed) and display the saved GIF
         inline.
