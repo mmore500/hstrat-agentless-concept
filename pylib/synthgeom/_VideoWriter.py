@@ -44,7 +44,7 @@ class VideoWriter:
             norm_img = (img - img.min()) / (img.max() - img.min() + 1e-8)
             # Apply colormap (ignore alpha) to obtain an RGB image.
             img = (self.colormap(norm_img)[:, :, :3] * 255).astype(np.uint8)
-        self.frames.append(img)
+        self.frames.append(img.swapaxes(0, 1))
 
     def add_observations(self, observations):
         for frame in observations:
