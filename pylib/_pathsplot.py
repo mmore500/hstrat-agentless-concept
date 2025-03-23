@@ -54,5 +54,6 @@ def pathsplot(
         sort=False,
         **kwargs,
     )
-    g.set(xlim=(0, xmax), ylim=(0, ymax))
+    g.set(xlim=(0, xmax), ylim=(ymax, 0))  # inverted y axes
+    g.tight_layout()
     return g
