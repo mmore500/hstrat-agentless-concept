@@ -1,3 +1,5 @@
+# adapted from
+# https://developmentalsystems.org/sensorimotor-lenia
 from addict import Dict
 import cv2
 import torch

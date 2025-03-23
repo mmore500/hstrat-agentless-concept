@@ -1,3 +1,5 @@
+# adapted from
+# https://developmentalsystems.org/sensorimotor-lenia
 class Space(object):
     """
     Defines the init_space, genome_space and intervention_space of a system

@@ -1,3 +1,5 @@
+# adapted from
+# https://developmentalsystems.org/sensorimotor-lenia
 from IPython.display import Image as IPImage
 from IPython.display import display
 import imageio
