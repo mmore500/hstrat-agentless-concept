@@ -10,6 +10,9 @@ def pathsplot(
     paths: typing.List[typing.List[typing.Tuple[int, int]]],
     xmax: typing.Optional[int] = None,
     ymax: typing.Optional[int] = None,
+    *,
+    aspect: float = 1.0,
+    height: float = 1.5,
     **kwargs: dict,
 ) -> sns.FacetGrid:
     """Plot multiple paths.
@@ -49,10 +52,13 @@ def pathsplot(
         y="y",
         hue="t",
         col="path",
+        aspect=aspect,
         estimator=None,
         kind="line",
+        height=height,
         sort=False,
         **kwargs,
     )
-    g.set(xlim=(0, xmax), ylim=(0, ymax))
+    g.set(xlim=(0, xmax), ylim=(ymax, 0))  # inverted y axes
+    g.tight_layout()
     return g
