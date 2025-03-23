@@ -1,5 +1,7 @@
 # adapted from
 # https://developmentalsystems.org/sensorimotor-lenia
+import itertools as it
+
 from IPython.display import Image as IPImage
 from IPython.display import display
 import imageio
@@ -46,8 +48,8 @@ class VideoWriter:
             img = (self.colormap(norm_img)[:, :, :3] * 255).astype(np.uint8)
         self.frames.append(img.swapaxes(0, 1))
 
-    def add_observations(self, observations):
-        for frame in observations:
+    def add_observations(self, observations, every_nth=1, reorder=lambda x: x):
+        for frame in it.islice(reorder(observations), 0, None, every_nth):
             self.add(frame)
 
     def close(self):
