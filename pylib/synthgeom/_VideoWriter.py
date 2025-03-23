@@ -47,24 +47,8 @@ class VideoWriter:
         self.frames.append(img)
 
     def add_observations(self, observations):
-        for timestep in range(observations["states"].shape[0]):
-            rgb_im = np.concatenate(
-                [
-                    observations["states"][timestep, :, :, 0]
-                    .detach()
-                    .cpu()
-                    .unsqueeze(-1)
-                    .numpy()
-                    .repeat(2, 2),
-                    observations["states"][timestep, :, :, 1]
-                    .detach()
-                    .cpu()
-                    .unsqueeze(-1)
-                    .numpy(),
-                ],
-                axis=2,
-            )
-            self.add(rgb_im)
+        for frame in observations:
+            self.add(frame)
 
     def close(self):
         """
