@@ -1,3 +1,5 @@
+# adapted from
+# https://developmentalsystems.org/sensorimotor-lenia
 from copy import deepcopy
 import warnings
 
