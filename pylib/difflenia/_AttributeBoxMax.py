@@ -9,7 +9,7 @@ class AttributeBoxMax:
 
     def __call__(self, coordinate, frame, prev_frame):
         x, y = coordinate
-        grid = prev_frame.numpy()
+        grid = prev_frame.detach().cpu().numpy()
         assert len(grid.shape) == 2
-        assert np.isnan(np.sum(grid.ravel())) is False
+        assert not np.isnan(np.sum(grid.ravel()))
         return get_largest_coord(grid, (x, y), self._size)
