@@ -18,7 +18,6 @@ class VideoWriter:
         Parameters:
             filename (str): Output filename for the GIF.
             fps (float): Frames per second for the GIF.
-            fourcc (str): Unused parameter kept for compatibility.
         """
         self.filename = filename
         self.fps = fps
