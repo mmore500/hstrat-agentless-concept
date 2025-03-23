@@ -1,3 +1,5 @@
+# adapted from
+# https://developmentalsystems.org/sensorimotor-lenia
 import torch
 
 from ._Space import Space
