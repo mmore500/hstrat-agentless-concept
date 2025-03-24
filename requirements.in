@@ -1,6 +1,7 @@
 addict==2.4.0
 backstrip==0.2.4
 black==22.10.0
+colorclade==0.3.0
 Deprecated==1.2.13
 interval_search==0.5.2
 IPython==7.31.1
