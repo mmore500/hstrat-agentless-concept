@@ -29,7 +29,8 @@ def make_hstrat_surface_dataframe(
     return pd.DataFrame(
         {
             "data_hex": [
-                f"{T:016x}{surface:016x}" for surface in surfaces.ravel()
+                f"{T:016x}{surface:016x}"
+                for surface in reverse_bits(surfaces).ravel()
             ],
             "dstream_algo": dstream_algo,
             "dstream_storage_bitoffset": 64,
