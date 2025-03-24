@@ -87,5 +87,4 @@ class VideoWriter:
         the original API.
         """
         self.close()
-        with open(self.filename, "rb") as f:
-            display(IPImage(data=f.read(), format="gif"))
+        display(IPImage(url=self.filename))

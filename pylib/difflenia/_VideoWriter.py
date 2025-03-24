@@ -104,4 +104,4 @@ class VideoWriter:
         the original API.
         """
         self.close()
-        display(IPImage(url=self.filename, format="gif"))
+        display(IPImage(url=self.filename))
