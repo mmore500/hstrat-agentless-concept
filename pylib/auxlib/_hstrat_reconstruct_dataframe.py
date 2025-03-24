@@ -1,6 +1,7 @@
 import subprocess
 import tempfile
 
+import numpy as np
 import pandas as pd
 
 
@@ -22,9 +23,24 @@ def hstrat_reconstruct_dataframe(df: pd.DataFrame) -> pd.DataFrame:
                     "hstrat.AssignOriginTimeNodeRankTriePostprocessor(t0='dstream_S')",
                     phylo_f.name,
                 ],
-                capture_output=True,
+                # capture_output=True,
                 check=True,
                 input=genomes_f.name.encode(),
             )
 
-            return pd.read_parquet(phylo_f.name)
+            res = pd.read_parquet(phylo_f.name)
+
+            # fix wraparound of negative origin_time
+            if pd.api.types.is_unsigned_integer_dtype(res["origin_time"]):
+                res["origin_time"] = (
+                    res["origin_time"]
+                    .to_numpy()
+                    .astype(
+                        np.dtype(
+                            res["origin_time"].dtype.name.replace("u", ""),
+                        ),
+                        casting="unsafe",
+                    )
+                )
+
+            return res
