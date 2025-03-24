@@ -1,6 +1,6 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import imageio
+import matplotlib.pyplot as plt
+import numpy as np
 
 
 def plot_gif_frames(gif_path):
