@@ -1,7 +1,4 @@
 # adapted from https://github.com/mmore500/hstrat-surface-concept/blob/645a60e02fd05284929a3af763754acfb63f3614/implemented_pseudocode/tilted_site_selection.py
-import typing
-
-
 def _modpow2(dividend: int, divisor: int) -> int:
     """Perform fast mod using bitwise operations.
 
@@ -36,7 +33,7 @@ def _bit_floor(n: int) -> int:
     return n & mask
 
 
-def downstream_tilted_site_selection(S: int, T: int) -> typing.Optional[int]:
+def downstream_tilted_site_selection(S: int, T: int) -> int:
     """Site selection algorithm for tilted curation.
 
     Parameters
