@@ -18,6 +18,8 @@ def hstrat_reconstruct_dataframe(df: pd.DataFrame) -> pd.DataFrame:
                     "-m",
                     "hstrat.dataframe.surface_build_tree",
                     "--no-delete-trunk",
+                    "--trie-postprocessor",
+                    "hstrat.AssignOriginTimeNodeRankTriePostprocessor(t0='dstream_S')",
                     phylo_f.name,
                 ],
                 capture_output=True,
