@@ -88,7 +88,9 @@ idna==3.10
     #   requests
     #   yarl
 imageio==2.37.0
-    # via moviepy
+    # via
+    #   -r requirements.in
+    #   moviepy
 imageio-ffmpeg==0.6.0
     # via moviepy
 importlib-metadata==8.6.1
@@ -308,7 +310,7 @@ pygments==2.19.1
     # via
     #   ipython
     #   nbconvert
-pyparsing==3.2.1
+pyparsing==3.2.2
     # via matplotlib
 pytest==7.2.2
     # via
@@ -357,7 +359,7 @@ seaborn==0.13.2
     #   backstrip
     #   colorclade
     #   pecking
-setuptools==77.0.3
+setuptools==78.0.2
     # via
     #   dendropy
     #   hurry-filesize
