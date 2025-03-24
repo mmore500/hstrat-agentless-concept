@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 
+from ._reverse_bits import reverse_bits
+
 
 def make_hstrat_surface_dataframe(
     surfaces: np.ndarray,
