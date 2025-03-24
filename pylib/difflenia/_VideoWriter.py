@@ -9,6 +9,8 @@ from matplotlib import colormaps as mpl_colormaps
 import numpy as np
 from pygifsicle import gifsicle
 
+from ..auxlib._plot_gif_frames import plot_gif_frames
+
 
 class VideoWriter:
     def __init__(self, filename, fps=30.0):
@@ -105,3 +107,4 @@ class VideoWriter:
         """
         self.close()
         display(IPImage(url=self.filename))
+        plot_gif_frames(self.filename)
