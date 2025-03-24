@@ -23,7 +23,7 @@ def hstrat_reconstruct_dataframe(df: pd.DataFrame) -> pd.DataFrame:
                     "hstrat.AssignOriginTimeNodeRankTriePostprocessor(t0='dstream_S')",
                     phylo_f.name,
                 ],
-                # capture_output=True,
+                capture_output=True,
                 check=True,
                 input=genomes_f.name.encode(),
             )
