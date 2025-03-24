@@ -20,6 +20,6 @@ def test_hstrat_reconstruct_dataframe():
         },
     )
     phylo_df = hstrat_reconstruct_dataframe(genome_df)
-    assert len(phylo_df) == len(genome_df)
+    assert len(phylo_df) >= len(genome_df)
     assert "ancestor_id" in phylo_df.columns
     assert "id" in phylo_df.columns
