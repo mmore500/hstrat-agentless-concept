@@ -8,6 +8,7 @@ def generate_observations(
     crea_func=np.ones,
     crea_size=10,
     mirror_backtrack=False,
+    mirror_backtrack_transform=lambda arr, i: arr,
     num_frames=1000,
 ):
     min_x = SX // 8
@@ -41,9 +42,12 @@ def generate_observations(
     half_idx = num_frames // 2
     if mirror_backtrack:
         assert len(frames[-half_idx - 1 :: -1]) == len(frames[half_idx:])
-        for forward_frame, backward_frame in zip(
-            frames[half_idx:], frames[-half_idx - 1 :: -1]
+        for i, (forward_frame, backward_frame) in enumerate(
+            zip(frames[half_idx:], frames[-half_idx - 1 :: -1])
         ):
-            forward_frame += backward_frame * (forward_frame == 0.0)
+            forward_frame += mirror_backtrack_transform(
+                backward_frame * (forward_frame == 0.0),
+                i,
+            )
 
     return frames
