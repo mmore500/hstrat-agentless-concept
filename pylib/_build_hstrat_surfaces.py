@@ -12,6 +12,7 @@ def build_hstrat_surfaces(
     frames: typing.List[typing.Any],
     dims: typing.Tuple[int, int],
     surface_transform: typing.Callable,
+    dstream_algo: str,
 ) -> typing.List[np.ndarray]:
     """Trace a path backwards from end coordinate.
 
@@ -31,6 +32,9 @@ def build_hstrat_surfaces(
     List[Tuple[int, int]]
         List of coordinates traversed, ending with end coordinate.
     """
+    if dstream_algo != "dstream.tilted_algo":
+        raise NotImplementedError
+
     S = 64
     surface = np.random.randint(0, 2**S, size=dims, dtype=np.uint64)
     surfaces = []
