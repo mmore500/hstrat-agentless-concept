@@ -1,7 +1,11 @@
 import numpy as np
 
 
-def randomize_nth_bit(arr, n):
+def randomize_nth_bit(
+    arr,
+    n,
+    rand_val=None,
+):
     """
     Randomizes the nth bit (0-indexed) of all integer values in a numpy array.
 
@@ -23,7 +27,10 @@ def randomize_nth_bit(arr, n):
         raise ValueError("Input array must be of integer type.")
 
     # Generate random bits (0 or 1) for each element in the array.
-    random_bits = np.random.randint(0, 2, size=arr.shape, dtype=arr.dtype)
+    if rand_val is None:
+        random_bits = np.random.randint(0, 2, size=arr.shape, dtype=arr.dtype)
+    else:
+        random_bits = np.full_like(arr, rand_val, dtype=arr.dtype)
 
     # Clear the nth bit in each element.
     cleared = arr & ~(np.ones_like(arr) << n)
