@@ -5,7 +5,7 @@ import itertools as it
 from IPython.display import Image as IPImage
 from IPython.display import display
 import imageio
-import matplotlib.cm as cm
+from matplotlib import colormaps as mpl_colormaps
 import numpy as np
 from pygifsicle import gifsicle
 
@@ -24,7 +24,7 @@ class VideoWriter:
         self.fps = fps
         self.frames = []
         # Use the "jet" colormap by default for grayscale images.
-        self.colormap = cm.get_cmap("jet")
+        self.colormap = mpl_colormaps["jet"]
 
     def add(self, img):
         """
