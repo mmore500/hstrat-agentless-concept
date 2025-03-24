@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def transform_neighborhood_max(source_matrix, test_matrix, *, n):
+def transform_box_max(source_matrix, test_matrix, *, n):
     """
     For each position in source_matrix and test_matrix, finds the value in
     source_matrix corresponding to the location where test_matrix attains its
@@ -61,3 +61,15 @@ def transform_neighborhood_max(source_matrix, test_matrix, *, n):
     # Now, use these coordinates to index into source_matrix.
     Z = source_matrix[orig_rows, orig_cols]
     return Z
+
+
+class TransformBoxMax:
+    def __init__(self, n):
+        self._n = n
+
+    def __call__(self, source_matrix, test_matrix):
+        return transform_box_max(
+            source_matrix,
+            test_matrix,
+            n=self._n,
+        )
