@@ -22,14 +22,11 @@ def randomize_nth_bit(arr, n):
     if not np.issubdtype(arr.dtype, np.integer):
         raise ValueError("Input array must be of integer type.")
 
-    # Create a mask for the nth bit.
-    mask = 1 << n
-
     # Generate random bits (0 or 1) for each element in the array.
     random_bits = np.random.randint(0, 2, size=arr.shape, dtype=arr.dtype)
 
     # Clear the nth bit in each element.
-    cleared = arr & ~mask
+    cleared = arr & ~(np.ones_like(arr) << n)
 
     # Set the nth bit to the random bit.
     randomized = cleared | (random_bits << n)
