@@ -17,8 +17,10 @@ def hstrat_reconstruct_dataframe(df: pd.DataFrame) -> pd.DataFrame:
                     "python3",
                     "-m",
                     "hstrat.dataframe.surface_build_tree",
+                    "--no-delete-trunk",
                     phylo_f.name,
                 ],
+                capture_output=True,
                 check=True,
                 input=genomes_f.name.encode(),
             )
