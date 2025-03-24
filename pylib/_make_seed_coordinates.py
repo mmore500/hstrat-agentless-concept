@@ -9,7 +9,7 @@ def make_seed_coordinates(
 ) -> typing.List[typing.Tuple[int, int]]:
 
     seed_coordinates = it.product(
-        reversed(y_coords),
+        y_coords,
         x_coords,
     )
     return [*map(tuple, map(reversed, seed_coordinates))]
