@@ -41,13 +41,12 @@ def generate_observations(
 
     system.init_loca = []
     for x, y in [
-        (50, 50),
+        (180, 150),
         (200, 200),
-        (300, 100),
-        (200, 100),
         (300, 250),
-        (300, 200),
         (250, 300),
+        (210, 300),
+        (160, 320),
     ]:
         for i in range(x, x + 40):
             for j in range(y, y + 40):
