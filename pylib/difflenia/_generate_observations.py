@@ -46,8 +46,8 @@ def generate_observations(
         (300, 100),
         (200, 100),
         (300, 250),
-        (310, 210),
-        (250, 330),
+        (300, 200),
+        (250, 300),
     ]:
         for i in range(x, x + 40):
             for j in range(y, y + 40):
