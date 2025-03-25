@@ -5,6 +5,7 @@ colorclade==0.3.0
 Deprecated==1.2.13
 interval_search==0.5.2
 IPython==7.31.1
+imageio==2.37.0
 isort==5.12.0
 matplotlib==3.9.2
 more_itertools==9.1.0
