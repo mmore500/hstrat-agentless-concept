@@ -91,10 +91,10 @@ def generate_observations(
         system.random_obstacle(nb_obstacle)
 
     if borders:
-        system.init_wall[:, :4] = 1
-        system.init_wall[:, -4:] = 1
-        system.init_wall[-4:, :] = 1
-        system.init_wall[:4, :] = 1
+        system.init_wall[:, :20] = 1
+        system.init_wall[:, -20:] = 1
+        system.init_wall[-20:, :] = 1
+        system.init_wall[:20, :] = 1
 
     with log_context_duration("Running Lenia", logger=logger):
         with torch.no_grad():
