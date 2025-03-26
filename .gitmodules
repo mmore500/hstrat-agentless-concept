@@ -1,4 +1,4 @@
 [submodule "tex"]
 	path = tex
-	url = https://github.com/mmore500/hypermutator-dynamics.git
+	url = https://github.com/mmore500/hstrat-agentless-concept.git
 	branch = tex
