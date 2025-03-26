@@ -2,7 +2,7 @@ run = "make -C tex fresher"
 hidden = [".config"]
 
 [nix]
-channel = "stable-23_05"
+channel = "stable-24_05"
 
 [env]
 GIT_EDITOR = "vim"
