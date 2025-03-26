@@ -1,0 +1,42 @@
+\begin{figure}[htbp]
+  \centering
+  % Top row: Sparse images
+  \begin{subfigure}[b]{0.65\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{img/dev-timelapse-sparse.png}
+    \caption{Sparse timelapse}
+    \label{fig:dev-sample:dev-timelapse-sparse}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}[b]{0.35\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{img/dev-phylo-sparse.png}
+    \caption{Sparse phylo}
+    \label{fig:dev-sample:dev-phylo-sparse}
+  \end{subfigure}
+
+  \vspace{1em}
+
+  % Bottom row: Dense images
+  \begin{subfigure}[b]{0.65\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{img/dev-timelapse-dense.png}
+    \caption{Dense timelapse}
+    \label{fig:dev-sample:dev-timelapse-dense}
+  \end{subfigure}%
+  \hfill
+  \begin{subfigure}[b]{0.35\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{img/dev-phylo-dense.png}
+    \caption{Dense phylo}
+    \label{fig:dev-sample:dev-phylo-dense}
+  \end{subfigure}
+
+  \caption{Sample results using naive local max attribution rule with differentiable Lenia \citep{hamon2022learning}.
+  Top row: sparse simulation outcome; note the soliton-pair autocatalytic replication event in the bottom right corner.
+  Bottom row: dense simulation outcome.
+  The sparse animation is available at \url{https://hopth.ru/et} and the dense animation at \url{https://hopth.ru/eu}.
+  Source notebook is at \url{https://hopth.ru/ev}.
+}
+  \label{fig:dev-sample}
+\end{figure}
