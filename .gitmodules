@@ -1,0 +1,50 @@
+[submodule "binder/binder"]
+	path = binder/binder
+	url = https://github.com/mmore500/hstrat-agentless-concept.git
+	branch = binder
+	shallow = true
+[submodule "binder/binder-2024-10-20-example.ipynb"]
+	path = binder/binder-2024-10-20-example.ipynb
+	url = https://github.com/mmore500/hstrat-agentless-concept.git
+	branch = binder-2024-10-20-example.ipynb
+	shallow = true
+[submodule "binder/binder-dev-build_path.ipynb"]
+	path = binder/binder-dev-build_path.ipynb
+	url = https://github.com/mmore500/hstrat-agentless-concept.git
+	branch = binder-dev-build_path.ipynb
+	shallow = true
+[submodule "binder/binder-dev-difflenia-AttributeBoxMax.ipynb"]
+	path = binder/binder-dev-difflenia-AttributeBoxMax.ipynb
+	url = https://github.com/mmore500/hstrat-agentless-concept.git
+	branch = binder-dev-difflenia-AttributeBoxMax.ipynb
+	shallow = true
+[submodule "binder/binder-dev-difflenia-TransformBoxMax.ipynb"]
+	path = binder/binder-dev-difflenia-TransformBoxMax.ipynb
+	url = https://github.com/mmore500/hstrat-agentless-concept.git
+	branch = binder-dev-difflenia-TransformBoxMax.ipynb
+	shallow = true
+[submodule "binder/binder-dev-difflenia.ipynb"]
+	path = binder/binder-dev-difflenia.ipynb
+	url = https://github.com/mmore500/hstrat-agentless-concept.git
+	branch = binder-dev-difflenia.ipynb
+	shallow = true
+[submodule "binder/binder-dev-pathsplot.ipynb"]
+	path = binder/binder-dev-pathsplot.ipynb
+	url = https://github.com/mmore500/hstrat-agentless-concept.git
+	branch = binder-dev-pathsplot.ipynb
+	shallow = true
+[submodule "binder/binder-dev-synthgeom-AttributeBoxMax.ipynb"]
+	path = binder/binder-dev-synthgeom-AttributeBoxMax.ipynb
+	url = https://github.com/mmore500/hstrat-agentless-concept.git
+	branch = binder-dev-synthgeom-AttributeBoxMax.ipynb
+	shallow = true
+[submodule "binder/binder-dev-synthgeom-TransformBoxMax.ipynb"]
+	path = binder/binder-dev-synthgeom-TransformBoxMax.ipynb
+	url = https://github.com/mmore500/hstrat-agentless-concept.git
+	branch = binder-dev-synthgeom-TransformBoxMax.ipynb
+	shallow = true
+[submodule "binder/binder-dev-synthgeom.ipynb"]
+	path = binder/binder-dev-synthgeom.ipynb
+	url = https://github.com/mmore500/hstrat-agentless-concept.git
+	branch = binder-dev-synthgeom.ipynb
+	shallow = true
