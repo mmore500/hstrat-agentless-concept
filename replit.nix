@@ -2,7 +2,7 @@
     deps = [
       pkgs.htop
       pkgs.vim
-      pkgs.texliveSmall
+      pkgs.texliveMedium
       pkgs.python310
       pkgs.bibtex-tidy
     ];
