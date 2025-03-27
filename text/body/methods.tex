@@ -1,9 +1,30 @@
 \section{Methods} \label{sec:methods}
 
+\subsection{Naive Attribution Function}
+\label{sec:attribution}
+
+A naive attribution function $f$ was used that attributes to the position of the most intense preceding-frame Lenia activation within a local region $r$ around a given coordinate $(i, j)$.
+The value $r=7$ was arbitrarily chosen for present work.
+
+Notate Lenia activation as a matrix $A \in \mathbb{R}^{m \times n}$.
+Notate the point to be attributed as $(i,j)$ within that matrix, and a radius $r \in \mathbb{N}$.
+The local submatrix region around $(i,j)$ can be notated as
+
+\begin{align*}
+R_{ij}^r = \{ (p,q) \mid i - r \le p \le i + r,\; j - r \le q \le j + r \}.
+\end{align*}
+
+The function $f$ that returns the attributed coordinates corresponding to the maximum value within that region is
+
+\begin{align*}
+f(A, i, j, r) = \underset{(p,q) \in R_{ij}^r}{\operatorname*{argmax}}\, A_{p,q}.
+\end{align*}
+
+One shortcoming of the existing implementation that could be refined is ensuring that in the case of a tie, the original coordinate or an arbitrary coordinate should be preferred to prevent systematic directional drift effects (\url{https://github.com/mmore500/hstrat-agentless-concept/issues/6}).
+
 \subsection{Software and Data Availability} \label{sec:materials}
 
-Simulation code, configuration files, and batch scripts for this work are available via Zenodo at \url{TODO}.
-Postprocessing scripts and executable notebooks for this work are hosted separately at \url{TODO}.
-Data and supplemental materials are available via the Open Science Framework \url{TODO} \citep{foster2017open}.
+Simulation code and executable notebooks for this work are available via GitHub at \url{https://github.com/mmore500/hstrat-agentless-concept}.
+Data and supplemental materials are available via the Open Science Framework at \url{https://osf.io/fj8u6/} \citep{foster2017open}.
 
-This project benefited significantly from open-source scientific software \citep{2020SciPy-NMeth,harris2020array,reback2020pandas,mckinney-proc-scipy-2010,waskom2021seaborn,hunter2007matplotlib,moreno2023teeplot}.
+This project benefited significantly from open-source scientific software \citep{2020SciPy-NMeth,harris2020array,reback2020pandas,mckinney-proc-scipy-2010,waskom2021seaborn,hunter2007matplotlib,moreno2023teeplot,paszke2019pytorch,moreno2022hstrat}.

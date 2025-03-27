@@ -1,3 +1,16 @@
 \section{Results and Discussion} \label{sec:results}
 
+Preliminary experiments within a bounded 2D CA domain for 1,000 update steps, using learned rule sets reported in work on differentiable Lenia
+\citep{hamon2022learning}.
+Example runs shown were generated with the \texttt{crea1} rule set, which exhibited occasional self-catalyzed replication events.
+Notebook code at \url{https://hopth.ru/ev} also includes examples from an alternate \texttt{crea2} ruleset producing non-replicator solitons.
+
 \input{fig/dev-sample}
+
+Figure \ref{fig:dev-sample} compares example Lenia time-lapses with corresponding phylogenies reconstructed from all CA cells with end-state activation above a fixed threshold.
+Obstacle layout (blue circles) was generated randomly, and differs between examples.
+In the first example, several soliton evaporation events occur along with a small amount of replicator activity, yielding a sparse population size.
+In the second example, intense soliton replication occurs near the beginning of the simulation, leading the CA space to be mostly filled.
+
+Phylogenies were reconstructed from 64-bit hstrat/dstream annotations, curated according to the tilted retention policy.
+Annotations were propagated using a naive argmax attribution function, described in Section \ref{sec:attribution}.
