@@ -38,7 +38,11 @@ Cerebras provides a PyTorch back-end, which may be helpful in working with neura
 Conveniently, reference code for differentiable Lenia used in prototype work for this project is implemented in PyTorch \citep{hamon2022learning}.
 
 Past work with agent-based simulations on the Cerebras Wafer-Scale Engine have successfully applied hereditary stratigraphy methodology for decentralized phylogeny tracking \citep{moreno2024trackable}.
-However, existing work leveraging this approach has assumed an explicit agent genome model and hooked into explicit agent replication events.
+In brief, hereditary stratigraphy methodology works by attaching a small, fixed-size (e.g., 64 bit) heritable tag to agent genomes.
+These tags undergo a specially-designed mutation process that allows fast, accurate estimation of the number of generations elapsed since the common ancestor of two tags.
+As such, phylogenetic history within a simulation  (i.e., the ancestry tree among agents) can then be estimated from sample genomes, akin to how biologists build phylogenies by comparing similarities between organisms' DNA.
+
+However, existing work leveraging the hereditary stratigraphy approach has assumed an explicit agent genome model and hooked into explicit agent replication events.
 In this work, we explore how distributed phylogeny tracking via hereditary stratigraphy might be generalized to track interaction and/or replication dynamics in cellular automata-based simulations where explicit agent genomes and agent replication do not exist.
 
 \subsection{Proposed Approach}
@@ -88,3 +92,75 @@ The remainder of this section is organized into five further subsections, brains
 
 Section \ref{sec:results} reports preliminary proof-of-concept work using a differentiable Lenia configuration exhibiting gliding solitons capable of autocatalytic self-replication \citep{hamon2022learning}.
 This preliminary work, applies a naive local-maximum attribution function with a manually-chosen radius.
+
+\subsection{Capabilities to Test}
+
+Questions about the properties/capabilities of the proposed methodology include,
+\begin{enumerate}
+\item tracking accuracy/behavior under discrete example scenarios of possible soliton interactions (Figure \ref{fig:lenia-event-types}),
+\item accuracy versus ``ground truth'' phylogenies over the course of an entire simulation,
+\item detecting and differentiating dynamics over the course of an entire simulation (e.g., presence/absence of solitons, soliton replication rate, existence of distinct soliton configurations, types of soliton-soliton interaction, extrinsically-imposed spatial obstacles/state-purging/ruleset change, etc.),
+\item performance/scalability (WSE? GPU via Jax?), and
+\item generalizability across CA/Lenia flavors and parameter regimes.
+\end{enumerate}
+
+\subsection{Ways to Test}
+
+Possible approaches to testing the proposed methodology include,
+\begin{enumerate}
+\item curate and manually label sample ``scenario episodes'' for case studies/benchmarking (e.g., Figure \ref{fig:lenia-event-types}),
+\item compare attribution trees against ground-truth phylogeny extracted via computer vision tracker or manual annotation,
+\item create attribution trees for mock/synthetic Lenia state sequences generated using a ``turtle''-like generator with explicit agents that may be tracked directly,
+\item investigate whether CA parameter regimes are meaningfully reflected in the structure of extracted attribution trees.
+\end{enumerate}
+
+\input{fig/sample-segment-anything}
+
+Recent developments in image segmentation tools (e.g., Meta's ``Segment Anything'') could make the computer vision tracking approach straightforward, although a cursory search did not turn up completely no-fuss packaged off-the-shelf software for this purpose \citep{cheng2023segment,yang2023track,kirillov2023segment}.
+Figure \ref{fig:sample-segment-anything} shows an example result from feeding a Lenia frame through Segment Anything's online demo.
+
+\subsection{Configurations to Test}
+
+Experiments might be replicated across more than one CA system.
+Within a CA system, experiments might compare rule sets producing different solitons and/or degraded/randomly-generated rule sets that do not produce solitons.
+
+With respect to available Lenia flavors, pre-existing example code producing self-replicator solitons is available for differentiable \citep{hamon2022learning}, extended (``aquarium'') Lenia \citep{chan2020lenia}.
+Three rule sets producing solitons, of which one appears to be a replicator, are provided with differentiable Lenia.
+Notably, this project includes reproducible code for a deep-learning workflow to ``learn'' further rule sets exhibiting solitons \citep{hamon2022learning}.
+Extended Lenia includes reproducible code with manually-designed parameter sets for producing a replicator soliton and a non-replicator soliton \citep{chan2020lenia}.
+An example replicator under base Lenia has also been described, although availability of reproducible code and parameter sets is uncertain \citep{chan2019lenia}.
+
+Different attribution functions might also be compared.
+Possible ingredients for formulating these attribution functions include,
+\begin{itemize}
+\item update-to-update state deltas,
+\item derivative of a cell at time $t$ with respect to cell(s) at time $t-1$ (via differentiable update rules),
+\item local maxima (current naive approach),
+\item particles in Particle Lenia,
+\item mass in Flow Lenia (attribution corresponding to propagation of local rule sets would be particularly interesting; however, robust replicators do not seem to be demonstrated in this framework),
+\item trained/learned attributors based on labeled data, and
+\item use of general-purpose, pre-trained foundation models (although these would need to be substantially stripped down to be practical).
+\end{itemize}
+
+\subsection{Extensions}
+
+One possible methodological extension would be to maintain more than one independent tracking layer.
+To get distinct behavior from these tracking layers, it would be necessary to use different attrbution functions for each layer or add noise to the attribution function.
+The latter noise-based strategy could be useful in detecting pairwise autocatylization or detecting the presence/extent of attribution ambiguity.
+
+Attribution functions could be supplemented with ``clean-up'' processes that compare local annotation sets to purge rare/distantly-related ``contamination'' attributions from solitons.
+
+A common practice for Lenia projects is providing an accompanying Google Colab notebook reproducing major results.
+Reusable/generalized software library tools might be developed for this purpose.
+
+\subsection{Limitations}
+
+Possible challenges and limitations of the proposed methodology include,
+\begin{itemize}
+\item achieving convergence within a soliton,
+\item introduction of incomplete lineage sorting effects,
+\item contamination of attribution trees by non-reactive soliton-soliton interactions,
+\item difficulty meaningfully generalizing attribution functions across CA systems/flavors (particularly to CA with discrete state spaces \citep{miotti2025differentiable}).
+\end{itemize}
+
+This project direction may also be constrained by limitated capabilities of existing cellular automata systems to generate rich/non-trivial eco-evolutionary dynamics.
