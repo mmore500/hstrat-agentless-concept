@@ -44,3 +44,47 @@ In this work, we explore how distributed phylogeny tracking via hereditary strat
 \subsection{Proposed Approach}
 
 \input{fig/hstrat-agentless-concept}
+
+The proposed approach annotates each CA cell with dstream/hstrat annotation data.
+(As per usual, dstream/hstrat annotations act as neutral instrumentation that do not influence simulation state.)
+These annotations step forward synchronously with each CA update performed, meaning that semantic ``generations'' correspond to simulation timesteps.
+Each update, dstream/hstrat annotations are ``propagated'' (copied) from current-timestep to next-timestep cells.
+For this purpose, each timestep, an \textbf{attribution function} is calculated to generate a mapping from next-timestep cells within $A_{t+1}$ to current-timestep cells within $A_{t}$.
+Next-timestep cells within $A_{t+1}$ then ``pull'' forward annotations from the current-timestep cell within $A_{t}$ they are attributed to.
+For non-surjective attribution functions (i.e., where more than one next-timestep cell may be attributed to a single current-timestep cell), this propagation process naturally gives rise to a branching ``attribution tree'' structure.
+
+Figure \ref{fig:hstrat-agentless-concept} provides a schematic overview of the proposed strategy for cellular automata phylogeny tracking.
+Several desirable properties are worth noting,
+\begin{itemize}
+\item bulk updating many hstrat/dstream buffers synchronized to the same timestep is efficient (i.e., the $k(t)$'th bit of all items are randomized) and can be achieved through vectorized/matrix operations (e.g., NumPy, CuPy, JAX, etc.),
+\item tracking data may be stored, managed, and transported directly through existing tensor/matrix frameworks (e.g., as u64 values),
+\item tracking behavior can be configured in a modular/extensible manner by swapping attribution functions, and
+\item in principle, it may be possible to design attribution functions robustly agnostic to unexpected/novel emergent soliton characteristics or behavior.
+\end{itemize}
+Additionally, existing desirable properties of hstrat/dstream-based tracking are preserved
+\begin{itemize}
+\item memory usage is fixed and known \textit{a priori},
+\item tracking operations are fully decentralized,
+\item tracking is robust to data loss, and
+\item the methodology is well-suited to sampling-based data collection strategies.
+\end{itemize}
+
+Desirable properties of the attribution function and how such an attribution function should be formulated remain open questions.
+In seeking to track attribution trees that correspond to soliton phylogeny, one possible framing is to pursue a coalescent-like property, that attribution lineages for cells within the same soliton traced back in time should tend to rapidly converge to a ``common ancestor.''
+It also may be desirable that attribution functions should avoid traces from one soliton back into another (i.e., to prevent ``contamination'' from non-reactive collisions between solitons).
+In formulating an attribution function to track soliton phylogenies, it may be acceptable to act inertly over parts of a soliton's spatial footprint, so long as useful behavior occurs reliably within spatio-temporally coherent regions (e.g., regions of peak state density).
+
+It is possible that ``flawed'' attribution trees only approximately corresponding to soliton phylogeny (or exhibiting some other semantic tracking property entirely) may still generate useful information about cellular automata dynamics and/or history.
+In this vein, more general applications for attribution trees could arise in tracking history within simulations modeling non-replicator/non-evolutionary systems.
+
+The remainder of this section is organized into five further subsections, brainstorming possible project directions with respect to
+\begin{enumerate}
+\item capabilities to test,
+\item ways to test,
+\item configurations to test,
+\item possible extensions, and
+\item strategy limitations.
+\end{enumerate}
+
+Section \ref{sec:results} reports preliminary proof-of-concept work using a differentiable Lenia configuration exhibiting gliding solitons capable of autocatalytic self-replication \citep{hamon2022learning}.
+This preliminary work, applies a naive local-maximum attribution function with a manually-chosen radius.
