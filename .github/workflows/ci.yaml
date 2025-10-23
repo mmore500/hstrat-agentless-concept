@@ -80,7 +80,7 @@ jobs:
       - id: set-matrix
         run: |
           cd binder
-          echo "::set-output name=matrix::$(ls *.ipynb | jq -R -s -c 'split("\n")[:-1]')"
+          echo "::set-output name=matrix::$(ls dev*.ipynb | jq -R -s -c 'split("\n")[:-1]')"
 
   binder-notebook:
     needs: list-notebooks
@@ -143,10 +143,29 @@ jobs:
           branch: binder-${{ matrix.notebook }} # The branch the action should deploy to.
           folder: . # The folder the action should deploy.
 
-  binder:
+  list-notebook-py311:
     runs-on: ubuntu-22.04
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v2
+      - id: set-matrix
+        run: |
+          cd binder
+          echo "::set-output name=matrix::$(ls 2025*.ipynb | jq -R -s -c 'split("\n")[:-1]')"
+
+  binder-notebook-py311:
+    needs: list-notebooks-py311
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        notebook: ${{ fromJson(needs.list-notebooks.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
       - name: Set up Apptainer
         uses: nick-fields/retry@v3
         with:
@@ -176,11 +195,14 @@ jobs:
           python -m pip install pip --upgrade
           sudo python -m pip install pip --upgrade
           sudo python -m pip install uv --upgrade
-          sudo python -m uv pip install -r requirements.txt  --system
+          sudo python -m uv pip install -r requirements_py311.txt  --system
       # Adapted from https://askubuntu.com/a/524368
-      - run: ./binder/execute_notebooks.sh
+      - run: ./binder/execute_notebooks.sh "${{ matrix.notebook }}"
       # adapted from https://unix.stackexchange.com/a/545630
       - run: find -type f -name "*.pdf" -exec bash -c 'gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dBATCH -dQUIET -sOutputFile="new.pdf" "{}"; rm "{}"; mv "new.pdf" "{}";' {} \;
+      - name: Strip PDF metadata
+        run: |
+          find -type f -name "*.pdf" -exec mat2 --lightweight --inplace --unknown-members keep "{}" \;
       - name: copy output to toplevel
         run: |
           mkdir -p binder/out
@@ -193,7 +215,7 @@ jobs:
       - run: git commit --allow-empty -m "Initial commit"
       - uses: JamesIves/github-pages-deploy-action@4.0.0
         with:
-          branch: binder # The branch the action should deploy to.
+          branch: binder-${{ matrix.notebook }} # The branch the action should deploy to.
           folder: . # The folder the action should deploy.
 
   tex:
