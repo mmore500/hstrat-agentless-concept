@@ -152,7 +152,7 @@ jobs:
       - id: set-matrix
         run: |
           cd binder
-          echo "matrix=$(ls 2025*.ipynb | jq -R -s -c 'split(\"\n\")[:-1]')" >> $GITHUB_OUTPUT
+          echo "matrix=$(ls 202*.ipynb | jq -R -s -c 'split(\"\n\")[:-1]')" >> $GITHUB_OUTPUT
 
   binder-notebook-py311:
     needs: list-notebook-py311
