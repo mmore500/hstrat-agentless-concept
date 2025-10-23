@@ -146,13 +146,13 @@ jobs:
   list-notebook-py311:
     runs-on: ubuntu-22.04
     outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
+      matrix2: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v2
-      - id: set-matrix
+      - id: set-matrix2
         run: |
           cd binder
-          echo "::set-output name=matrix::$(ls 2025*.ipynb | jq -R -s -c 'split("\n")[:-1]')"
+          echo "::set-output name=matrix2::$(ls 2025*.ipynb | jq -R -s -c 'split("\n")[:-1]')"
 
   binder-notebook-py311:
     needs: list-notebook-py311
@@ -160,7 +160,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        notebook: ${{ fromJson(needs.list-notebooks.outputs.matrix) }}
+        notebook: ${{ fromJson(needs.list-notebook-py311.outputs.matrix2) }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v4
