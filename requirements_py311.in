@@ -9,7 +9,7 @@ IPython==7.31.1
 imageio==2.37.0
 iplotx==1.2.0
 isort==5.12.0
-matplotlib==3.9.2
+matplotlib==3.10.7
 more_itertools==9.1.0
 moviepy==1.0.3
 nb-clean==2.4.0

@@ -193,7 +193,7 @@ markupsafe==3.0.3
     # via
     #   jinja2
     #   nbconvert
-matplotlib==3.9.2
+matplotlib==3.10.7
     # via
     #   -r requirements_py311.in
     #   backstrip
