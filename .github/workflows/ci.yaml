@@ -156,7 +156,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Setup headless display
-        uses: pyvista/setup-headless-display-action@v2
+        uses: pyvista/setup-headless-display-action@v3
       - run: |
           sudo apt-get update -y
           sudo apt-get install -y ghostscript imagemagick python3-pil libgif-dev ffmpeg mat2 gifsicle
