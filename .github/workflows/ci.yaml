@@ -143,24 +143,14 @@ jobs:
           branch: binder-${{ matrix.notebook }} # The branch the action should deploy to.
           folder: . # The folder the action should deploy.
 
-  list-notebook-py311:
-    runs-on: ubuntu-22.04
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-    steps:
-      - uses: actions/checkout@v2
-      - id: set-matrix
-        run: |
-          cd binder
-          echo "matrix=$(ls 202*.ipynb | jq -R -s -c 'split(\"\n\")[:-1]')" >> $GITHUB_OUTPUT
-
   binder-notebook-py311:
     needs: list-notebook-py311
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
       matrix:
-        notebook: ${{ fromJson(needs.list-notebook-py311.outputs.matrix) }}
+        notebook:
+          - 2025-10-22-gosper_wse-gol.ipynb
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v4
