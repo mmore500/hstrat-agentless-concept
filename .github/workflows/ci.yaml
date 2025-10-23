@@ -157,23 +157,35 @@ jobs:
           python-version: "3.11"
       - name: Setup headless display
         uses: pyvista/setup-headless-display-action@v3
-      - run: |
+      - name: Install system dependencies
+        run: |
           sudo apt-get update -y
           sudo apt-get install -y ghostscript imagemagick python3-pil libgif-dev ffmpeg mat2 gifsicle
-          sudo python -m pip install uv --upgrade
-          sudo python -m uv pip install -r requirements_py311.txt  --system
-      # Adapted from https://askubuntu.com/a/524368
-      - run: ./binder/execute_notebooks.sh "${{ matrix.notebook }}"
-      # adapted from https://unix.stackexchange.com/a/545630
-      - run: find -type f -name "*.pdf" -exec bash -c 'gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dNOPAUSE -dBATCH -dQUIET -sOutputFile="new.pdf" "{}"; rm "{}"; mv "new.pdf" "{}";' {} \;
+      - name: Set up Python virtual environment
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          python -m pip install --upgrade pip uv
+          uv pip install -r requirements_py311.txt
+      - name: Execute notebook
+        run: |
+          source .venv/bin/activate
+          ./binder/execute_notebooks.sh "${{ matrix.notebook }}"
+      - name: Compress PDFs
+        run: |
+          find -type f -name "*.pdf" -exec bash -c \
+            'gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen \
+            -dNOPAUSE -dBATCH -dQUIET -sOutputFile="new.pdf" "{}"; \
+            rm "{}"; mv "new.pdf" "{}";' {} \;
       - name: Strip PDF metadata
         run: |
           find -type f -name "*.pdf" -exec mat2 --lightweight --inplace --unknown-members keep "{}" \;
-      - name: copy output to toplevel
+      - name: Copy output to toplevel
         run: |
           mkdir -p binder/out
           cp -r binder/out .
-      - run: |
+      - name: Prepare Git repo
+        run: |
           git init
           sed -i '/teeplots\//d' binder/.gitignore
           rm -rf .gitmodules
@@ -181,8 +193,9 @@ jobs:
       - run: git commit --allow-empty -m "Initial commit"
       - uses: JamesIves/github-pages-deploy-action@4.0.0
         with:
-          branch: binder-${{ matrix.notebook }} # The branch the action should deploy to.
-          folder: . # The folder the action should deploy.
+          branch: binder-${{ matrix.notebook }}
+          folder: .
+
 
   tex:
     name: Latex Build and Deploy
