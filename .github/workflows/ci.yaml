@@ -160,8 +160,6 @@ jobs:
       - run: |
           sudo apt-get update -y
           sudo apt-get install -y ghostscript imagemagick python3-pil libgif-dev ffmpeg mat2 gifsicle
-          python -m pip install pip --upgrade
-          sudo python -m pip install pip --upgrade
           sudo python -m pip install uv --upgrade
           sudo python -m uv pip install -r requirements_py311.txt  --system
       # Adapted from https://askubuntu.com/a/524368
