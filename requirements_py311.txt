@@ -12,8 +12,6 @@ anytree==2.13.0
     # via
     #   alifedata-phyloinformatics-convert
     #   hstrat
-astroid==4.0.1
-    # via pylint
 astropy==7.1.1
     # via hstrat
 astropy-iers-data==0.2025.10.20.0.39.8
@@ -84,8 +82,6 @@ deprecated==1.2.13
     #   -r requirements_py311.in
     #   alifedata-phyloinformatics-convert
     #   hstrat
-dill==0.4.0
-    # via pylint
 distutils-strtobool==0.1.0
     # via teeplot
 downstream==1.15.4
@@ -128,7 +124,7 @@ interval-search==0.5.2
     # via
     #   -r requirements_py311.in
     #   hstrat
-iplotx==0.2.0
+iplotx==1.2.0
     # via -r requirements_py311.in
 ipykernel==7.0.1
     # via ipynbname
@@ -141,9 +137,7 @@ ipython==7.31.1
     #   nbqa
     #   watermark
 isort==5.12.0
-    # via
-    #   -r requirements_py311.in
-    #   pylint
+    # via -r requirements_py311.in
 iterpop==0.4.1
     # via
     #   alifedata-phyloinformatics-convert
@@ -212,8 +206,6 @@ matplotlib-inline==0.2.1
     # via
     #   ipykernel
     #   ipython
-mccabe==0.7.0
-    # via pylint
 mistune==3.1.4
     # via nbconvert
 mmh3==5.2.0
@@ -371,7 +363,6 @@ platformdirs==4.5.0
     # via
     #   black
     #   jupyter-core
-    #   pylint
 pluggy==1.6.0
     # via pytest
 polars==1.34.0
@@ -417,8 +408,6 @@ pygments==2.19.2
     # via
     #   ipython
     #   nbconvert
-pylint==4.0.2
-    # via iplotx
 pyparsing==3.2.5
     # via matplotlib
 pytest==7.2.2
@@ -515,8 +504,6 @@ tokenize-rt==6.2.0
     # via nbqa
 tomli==2.3.0
     # via nbqa
-tomlkit==0.13.3
-    # via pylint
 torch==2.0.1
     # via
     #   torchvision
