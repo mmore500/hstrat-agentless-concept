@@ -155,7 +155,7 @@ jobs:
           echo "::set-output name=matrix::$(ls 2025*.ipynb | jq -R -s -c 'split("\n")[:-1]')"
 
   binder-notebook-py311:
-    needs: list-notebooks-py311
+    needs: list-notebook-py311
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
