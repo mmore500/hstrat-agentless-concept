@@ -14,7 +14,7 @@ def hstrat_reconstruct_dataframe(df: pd.DataFrame) -> pd.DataFrame:
                 [
                     "singularity",
                     "exec",
-                    "docker://ghcr.io/mmore500/hstrat:v1.18.2",
+                    "docker://ghcr.io/mmore500/hstrat:v1.20.20",
                     "python3",
                     "-m",
                     "hstrat.dataframe.surface_build_tree",
